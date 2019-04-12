@@ -17,6 +17,7 @@ DEFAULT_CONFIG = {
         'TIMEOUT': None,
         'IGNORE': ['.+\.hot-update.js', '.+\.map'],
         'ASSETS_LOADER_FUNCTION': 'webpack_loader.utils.load_assets_from_filesystem',
+        'OPTIONAL_BUNDLE_NAMES': [],
     },
 }
 

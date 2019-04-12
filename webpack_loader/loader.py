@@ -50,6 +50,8 @@ class WebpackLoader(object):
         return self._load_assets()
 
     def filter_chunks(self, chunks):
+        if chunks is None:
+            return None
         for chunk in chunks:
             ignore = any(regex.match(chunk['name'])
                          for regex in self.config['ignores'])
@@ -90,7 +92,7 @@ class WebpackLoader(object):
 
         if assets.get('status') == 'done':
             chunks = assets['chunks'].get(bundle_name, None)
-            if chunks is None:
+            if chunks is None and bundle_name not in self.config['OPTIONAL_BUNDLE_NAMES']:
                 raise WebpackBundleLookupError('Cannot resolve bundle {0}.'.format(bundle_name))
             return self.filter_chunks(chunks)
 

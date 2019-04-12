@@ -23,7 +23,7 @@ def load_assets_from_filesystem(loader):
         raise IOError(
             'Error reading {0}. Are you sure webpack has generated '
             'the file and the path is correct?'.format(stats_file))
- 
+
 
 def _filter_by_extension(bundle, extension):
     '''Return only files with the given extension'''
@@ -34,7 +34,7 @@ def _filter_by_extension(bundle, extension):
 
 def _get_bundle(bundle_name, extension, config):
     bundle = get_loader(config).get_bundle(bundle_name)
-    if extension:
+    if bundle and extension:
         bundle = _filter_by_extension(bundle, extension)
     return bundle
 
@@ -57,6 +57,8 @@ def get_as_tags(bundle_name, extension=None, config='DEFAULT', attrs=''):
 
     bundle = _get_bundle(bundle_name, extension, config)
     tags = []
+    if not bundle:
+        return tags
     for chunk in bundle:
         if chunk['name'].endswith(('.js', '.js.gz')):
             tags.append((
